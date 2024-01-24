@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Step1Service } from './step1.service';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-step1',
@@ -10,24 +11,21 @@ import { Step1Service } from './step1.service';
   styleUrl: './step1.component.scss'
 })
 
-export class Step1Component {
+export class Step1Component implements OnInit{
 
   @ViewChild('model') model!: ElementRef;
   @ViewChild('color') color!: ElementRef;
 
-  @Output() stepOneChanged = new EventEmitter();
-
   carModels: any;
   carColors: any;
   isVisibleColor: boolean = false;
-  renderImgPath: string = '';
 
-  constructor(private service: Step1Service) {}
+  constructor(private service: Step1Service,
+  private storageData: AppService) {}
 
   ngOnInit() {
 
     this.service.getModels().subscribe((data: any) => {
-      console.log(data);
       this.carModels = data;
     })
   }
@@ -50,9 +48,7 @@ export class Step1Component {
     localStorage.setItem('color', selectedColors[0].description);
     localStorage.setItem('colorPrice', selectedColors[0].price);
     
-    this.stepOneChanged.emit({model:selModel, color: selColor});
-
-    this.renderImgPath = `../assets/img/${selModel}/${selectedColors[0].code}.jpg`
+    this.storageData.renderImage(`../assets/img/${selModel}/${selectedColors[0].code}.jpg`)
   }
 
 }

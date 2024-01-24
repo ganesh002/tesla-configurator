@@ -1,6 +1,7 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Step2Service } from './step2.service';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-step2',
@@ -13,9 +14,6 @@ export class Step2Component {
 
   @ViewChild('config') config!: ElementRef;
 
-  @Output() stepTwoChanged = new EventEmitter();
-  @Input() modelId: string = '';
-  
   range: number = 0;
   speed: number = 0;
   cost: number = 0;
@@ -26,7 +24,8 @@ export class Step2Component {
 
   carConfig: any = []
 
-  constructor(private service: Step2Service) {}
+  constructor(private service: Step2Service,
+    private storageData: AppService) {}
 
   ngOnInit() {
 
@@ -57,7 +56,7 @@ export class Step2Component {
     localStorage.setItem('yoke', this.yoke.toString());
     localStorage.setItem('towHitch', this.towHitch.toString());
 
-    this.stepTwoChanged.emit({config: selConfig, range: this.range, speed: this.speed, cost: this.cost, yoke: this.yoke, towhitch: this.towHitch});
+    this.storageData.enableStep3(false);
   }
 
   hitchChnage(event: any) {

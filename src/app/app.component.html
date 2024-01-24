@@ -1,6 +1,8 @@
 <nav>
-  <a routerLink="/step1" routerLinkActive="active" areaCurrentWhenActive="page" (stepOneChanged)="stepOneChanged($event)">Step1</a>
-  <a routerLink="/step2" routerLinkActive="active" areaCurrentWhenActive="page" [ngClass]="''">Step2</a>
-  <a routerLink="/step3" routerLinkActive="active" areaCurrentWhenActive="page" [ngClass]="''">Step3</a>
+  <button routerLink="/step1" routerLinkActive="active" areaCurrentWhenActive="page">Step1</button>
+  <button routerLink="/step2" routerLinkActive="active" areaCurrentWhenActive="page" [disabled]="isDisabledStep2">Step2</button>
+  <button routerLink="/step3" routerLinkActive="active" areaCurrentWhenActive="page" [disabled]="isDisabledStep3">step3</button>
 </nav>
 <router-outlet></router-outlet>
+
+<img class="mt-4" width="50%" [src]="imgPath">
