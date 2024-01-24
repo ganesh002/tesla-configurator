@@ -1,0 +1,19 @@
+<div>
+    <h2>Step1: Choose your model and color</h2>
+    <span>Model: </span>
+    <select #model id="modelSelect" name="modelSelect" (change)="modelChange()">
+        <option default>Choose Model</option>
+        <option [value]="m.code" *ngFor="let m of carModels">
+            {{m.description}}
+        </option>
+    </select>&nbsp;&nbsp;
+    <span *ngIf="isVisibleColor">Color: </span>
+    <select *ngIf="isVisibleColor" #color id="colorSelect" name="colorSelect" (change)="colorChange()">
+        <option default>Choose Color</option>
+        <option [value]="c.code" *ngFor="let c of carColors">
+            {{c.description}}
+        </option>
+    </select>
+</div>
+
+<img class="mt-4" width="50%" [src]="renderImgPath">

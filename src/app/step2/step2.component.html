@@ -1,0 +1,19 @@
+<div>
+    <h2>Step2: Choose your config and options</h2>
+    <span>Config: </span>
+    <select #config id="configSelect" name="configSelect" (change)="configChange()">
+        <option default>Choose Config</option>
+        <option [value]="c.id" *ngFor="let c of carConfig">
+            {{c.description}}
+        </option>
+    </select>&nbsp;&nbsp;
+</div>
+<div *ngIf="selectedConfig" class="mt-2">
+    <span>Range: {{range}} miles</span><span> - Max Speed: {{speed}}</span><span> - Cost: {{cost | currency: 'USD'}}</span>
+</div>
+<div *ngIf="selectedConfig" class="mt-2">
+    <span>Tow hitch? </span><input type="checkbox" id="includeTow" name="includeTow" [checked]="towHitch" (change)="hitchChnage($event)">
+</div>
+<div *ngIf="selectedConfig" class="mt-2">
+    <span>Yoke steering wheel? </span><input type="checkbox" id="includeYoke" name="includeYoke" [checked]="yoke" (change)="yokeChnage($event)">
+</div>

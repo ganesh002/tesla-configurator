@@ -1,0 +1,70 @@
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Step2Service } from './step2.service';
+
+@Component({
+  selector: 'app-step2',
+  standalone: true,
+  imports: [CommonModule, CurrencyPipe],
+  templateUrl: './step2.component.html',
+  styleUrl: './step2.component.scss'
+})
+export class Step2Component {
+
+  @ViewChild('config') config!: ElementRef;
+
+  @Output() stepTwoChanged = new EventEmitter();
+  @Input() modelId: string = '';
+  
+  range: number = 0;
+  speed: number = 0;
+  cost: number = 0;
+  towHitch: boolean = false;
+  yoke: boolean = false;
+
+  selectedConfig: boolean = false;
+
+  carConfig: any = []
+
+  constructor(private service: Step2Service) {}
+
+  ngOnInit() {
+
+    let model = localStorage.getItem('model')?? '';
+    this.service.getConfig(model).subscribe((data: any) => {
+      this.carConfig = data.configs;
+      this.towHitch = data.towHitch;
+      this.yoke = data.yoke;
+    })
+  }
+
+  configChange() {
+
+    let selConfig = this.config?.nativeElement?.value == 'Choose Config' ? '' : this.config.nativeElement.value;
+
+    let selectedConfig = this.carConfig.filter((ele: any) => ele.id == selConfig);
+    
+    this.range = selectedConfig[0].range;
+    this.speed = selectedConfig[0].speed;
+    this.cost = selectedConfig[0].price;
+
+    this.selectedConfig =  selConfig ? true : false;
+
+    localStorage.setItem('config', selectedConfig[0].description);
+    localStorage.setItem('range', this.range.toString());
+    localStorage.setItem('speed', this.speed.toString());
+    localStorage.setItem('cost', this.cost.toString());
+    localStorage.setItem('yoke', this.yoke.toString());
+    localStorage.setItem('towHitch', this.towHitch.toString());
+
+    this.stepTwoChanged.emit({config: selConfig, range: this.range, speed: this.speed, cost: this.cost, yoke: this.yoke, towhitch: this.towHitch});
+  }
+
+  hitchChnage(event: any) {
+    localStorage.setItem('towHitch', event.target.checked.toString());
+  }
+
+  yokeChnage(event: any) {
+    localStorage.setItem('yoke', event.target.checked.toString());
+  }
+}
