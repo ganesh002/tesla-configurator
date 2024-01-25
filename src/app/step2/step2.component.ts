@@ -3,6 +3,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Step2Service } from './step2.service';
 import { AppService } from '../app.service';
 
+type iConfigs = {
+  configs: [iConfig];
+  towHitch: boolean;
+  yoke: boolean;
+}
+
 type iConfig = {
     id: number;
     description: string;
@@ -38,10 +44,11 @@ export class Step2Component implements OnInit {
   ngOnInit() {
 
     const model = localStorage.getItem('model')?? '';
-    this.service.getConfig(model).subscribe((data: any) => {
-      this.carConfig = data.configs;
-      this.towHitch = data.towHitch;
-      this.yoke = data.yoke;
+    this.service.getConfig(model).subscribe(data => {
+      const configData = <iConfigs>data;
+      this.carConfig = configData.configs;
+      this.towHitch = configData.towHitch;
+      this.yoke = configData.yoke;
     })
   }
 
