@@ -5,4 +5,4 @@
 </nav>
 <router-outlet></router-outlet>
 
-<img class="mt-4" width="50%" [src]="imgPath">
+<img *ngIf="imgPath" alt="View of the model" class="mt-4" width="50%" [src]="imgPath">

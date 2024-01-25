@@ -3,6 +3,18 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Step1Service } from './step1.service';
 import { AppService } from '../app.service';
 
+type iColors = {
+  code: string;
+  description: string;
+  price: number;
+}
+
+type iModel = {
+  code: string;
+  description: string;
+  colors: [];
+}
+
 @Component({
   selector: 'app-step1',
   standalone: true,
@@ -11,43 +23,43 @@ import { AppService } from '../app.service';
   styleUrl: './step1.component.scss'
 })
 
-export class Step1Component implements OnInit{
+export class Step1Component implements OnInit {
 
   @ViewChild('model') model!: ElementRef;
   @ViewChild('color') color!: ElementRef;
 
-  carModels: any;
-  carColors: any;
+  carModels!: iModel[];
+  carColors!: iColors[];
   isVisibleColor: boolean = false;
 
   constructor(private service: Step1Service,
-  private storageData: AppService) {}
+    private storageData: AppService) { }
 
   ngOnInit() {
 
-    this.service.getModels().subscribe((data: any) => {
-      this.carModels = data;
+    this.service.getModels().subscribe(data => {
+      this.carModels = <iModel[]>data;
     })
   }
 
   modelChange() {
 
-    let selModel = this.model?.nativeElement?.value == 'Choose Model' ? '' : this.model.nativeElement.value;
+    const selModel = this.model?.nativeElement?.value == 'Choose Model' ? '' : this.model.nativeElement.value;
 
-    let selectedModel = this.carModels.filter((ele: any) => ele.code == selModel);
+    const selectedModel = this.carModels.filter((ele: iModel) => ele.code == selModel);
     this.carColors = selectedModel[0].colors;
     this.isVisibleColor = selModel ? true : false;
   }
 
   colorChange() {
-    let selModel = this.model?.nativeElement?.value == 'Choose Model' ? '' : this.model.nativeElement.value;
-    let selColor = this.color?.nativeElement?.value == 'Choose Color' ? '' : this.color.nativeElement.value;
+    const selModel = this.model?.nativeElement?.value == 'Choose Model' ? '' : this.model.nativeElement.value;
+    const selColor = this.color?.nativeElement?.value == 'Choose Color' ? '' : this.color.nativeElement.value;
 
-    let selectedColors = this.carColors.filter((ele: any) => ele.code == selColor);
+    const selectedColors = this.carColors.filter((ele: iColors) => ele.code == selColor);
     localStorage.setItem('model', selModel);
     localStorage.setItem('color', selectedColors[0].description);
-    localStorage.setItem('colorPrice', selectedColors[0].price);
-    
+    localStorage.setItem('colorPrice', selectedColors[0].price.toString());
+
     this.storageData.renderImage(`../assets/img/${selModel}/${selectedColors[0].code}.jpg`)
   }
 

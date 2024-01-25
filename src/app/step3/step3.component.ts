@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-step3',
@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './step3.component.html',
   styleUrl: './step3.component.scss'
 })
-export class Step3Component {
+export class Step3Component implements OnInit {
 
   config: null | string = '';
   configPrice: null | string = '';

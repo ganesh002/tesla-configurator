@@ -1,7 +1,15 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Step2Service } from './step2.service';
 import { AppService } from '../app.service';
+
+type iConfig = {
+    id: number;
+    description: string;
+    range: number;
+    speed: number;
+    price: number;
+}
 
 @Component({
   selector: 'app-step2',
@@ -10,7 +18,7 @@ import { AppService } from '../app.service';
   templateUrl: './step2.component.html',
   styleUrl: './step2.component.scss'
 })
-export class Step2Component {
+export class Step2Component implements OnInit {
 
   @ViewChild('config') config!: ElementRef;
 
@@ -22,14 +30,14 @@ export class Step2Component {
 
   selectedConfig: boolean = false;
 
-  carConfig: any = []
+  carConfig!: iConfig[];
 
   constructor(private service: Step2Service,
-    private storageData: AppService) {}
+  private storageData: AppService) {}
 
   ngOnInit() {
 
-    let model = localStorage.getItem('model')?? '';
+    const model = localStorage.getItem('model')?? '';
     this.service.getConfig(model).subscribe((data: any) => {
       this.carConfig = data.configs;
       this.towHitch = data.towHitch;
@@ -39,9 +47,9 @@ export class Step2Component {
 
   configChange() {
 
-    let selConfig = this.config?.nativeElement?.value == 'Choose Config' ? '' : this.config.nativeElement.value;
+    const selConfig = this.config?.nativeElement?.value == 'Choose Config' ? '' : this.config.nativeElement.value;
 
-    let selectedConfig = this.carConfig.filter((ele: any) => ele.id == selConfig);
+    const selectedConfig = this.carConfig.filter((ele: iConfig) => ele.id == selConfig);
     
     this.range = selectedConfig[0].range;
     this.speed = selectedConfig[0].speed;
@@ -59,11 +67,14 @@ export class Step2Component {
     this.storageData.enableStep3(false);
   }
 
-  hitchChnage(event: any) {
-    localStorage.setItem('towHitch', event.target.checked.toString());
+  hitchChnage(event: Event) {
+    const hitch = event.target as HTMLInputElement;
+    localStorage.setItem('towHitch', hitch.checked.toString());
   }
 
-  yokeChnage(event: any) {
-    localStorage.setItem('yoke', event.target.checked.toString());
+  yokeChnage(event: Event) {
+    
+    const yoke = event.target as HTMLInputElement;
+    localStorage.setItem('yoke', yoke.checked.toString());
   }
 }

@@ -13,11 +13,11 @@
         <td><b>{{color}}</b></td>
         <td>{{colorPrice | currency:'USD'}}</td>
     </tr>
-    <tr *ngIf="towHitch == 'true'">
+    <tr *ngIf="towHitch === 'true'">
         <td><b>Tow hitch package</b></td>
         <td>{{towHitchPrice | currency:'USD'}}</td>
     </tr>
-    <tr *ngIf="yoke == 'true'">
+    <tr *ngIf="yoke === 'true'">
         <td><b>Yoke steering wheel</b></td>
         <td>{{yokePrice | currency:'USD'}}</td>
     </tr>
