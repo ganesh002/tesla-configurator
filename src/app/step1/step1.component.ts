@@ -40,6 +40,8 @@ export class Step1Component implements OnInit {
     this.service.getModels().subscribe(data => {
       this.carModels = <iModel[]>data;
     })
+
+    this.clearStorage();
   }
 
   modelChange() {
@@ -61,6 +63,19 @@ export class Step1Component implements OnInit {
     localStorage.setItem('colorPrice', selectedColors[0].price.toString());
 
     this.storageData.renderImage(`../assets/img/${selModel}/${selectedColors[0].code}.jpg`)
+  }
+
+
+  clearStorage() {
+    localStorage.setItem('model', '');
+    localStorage.setItem('color', '');
+    localStorage.setItem('colorPrice', '');
+    localStorage.setItem('config', '');
+    localStorage.setItem('range', '');
+    localStorage.setItem('speed', '');
+    localStorage.setItem('cost', '');
+    localStorage.setItem('yoke', '');
+    localStorage.setItem('towHitch', '');
   }
 
 }

@@ -11,9 +11,9 @@
 <div *ngIf="selectedConfig" class="mt-2">
     <span>Range: {{range}} miles</span><span> - Max Speed: {{speed}}</span><span> - Cost: {{cost | currency: 'USD'}}</span>
 </div>
-<div class="mt-2">
+<div *ngIf="towHitch === true" class="mt-2">
     <span>Tow hitch? </span><input type="checkbox" id="includeTow" name="includeTow" [checked]="towHitch" (change)="hitchChnage($event)">
 </div>
-<div class="mt-2">
+<div *ngIf="yoke === true" class="mt-2">
     <span>Yoke steering wheel? </span><input type="checkbox" id="includeYoke" name="includeYoke" [checked]="yoke" (change)="yokeChnage($event)">
 </div>

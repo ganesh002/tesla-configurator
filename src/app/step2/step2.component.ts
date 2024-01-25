@@ -49,6 +49,9 @@ export class Step2Component implements OnInit {
       this.carConfig = configData.configs;
       this.towHitch = configData.towHitch;
       this.yoke = configData.yoke;
+
+      localStorage.setItem('towHitch', configData.towHitch.toString());
+      localStorage.setItem('yoke', configData.yoke.toString());
     })
   }
 
@@ -68,8 +71,6 @@ export class Step2Component implements OnInit {
     localStorage.setItem('range', this.range.toString());
     localStorage.setItem('speed', this.speed.toString());
     localStorage.setItem('cost', this.cost.toString());
-    localStorage.setItem('yoke', this.yoke.toString());
-    localStorage.setItem('towHitch', this.towHitch.toString());
 
     this.storageData.enableStep3(false);
   }

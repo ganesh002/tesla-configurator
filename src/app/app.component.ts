@@ -14,23 +14,25 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'tesla-configurator';
 
   imgPath:string = '';
-  subscription!: Subscription;
+  subscription1!: Subscription;
+  subscription2!: Subscription;
   isDisabledStep2: boolean = true;
   isDisabledStep3: boolean = true;
 
   constructor(private storageData: AppService) {}
 
   ngOnInit() {
-    this.subscription = this.storageData.imgSource.subscribe(src => {
+    this.subscription1 = this.storageData.imgSource.subscribe(src => {
       this.isDisabledStep2 = src!='' ? false : true;
       this.imgPath = src
     })
 
-    this.subscription = this.storageData.step3enable.subscribe(status => this.isDisabledStep3 = status)
+    this.subscription2 = this.storageData.step3enable.subscribe(status => this.isDisabledStep3 = status)
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
 }
